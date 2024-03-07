@@ -1,0 +1,175 @@
+Program.Sub.ScreenSU.Start
+gui.Form1..create
+gui.Form1..caption("")
+gui.Form1..size(15360,5340)
+gui.Form1..position(0,0)
+gui.Form1..event(unload,ProgramEnd)
+gui.Form1..alwaysontop(False)
+gui.Form1..fontname("Arial")
+gui.Form1..fontsize(8)
+gui.Form1..forecolor(0)
+gui.Form1..fontstyle(,,,,)
+gui.Form1..BackColor(-2147483633)
+gui.Form1..controlbox(True)
+gui.Form1..maxbutton(True)
+gui.Form1..minbutton(True)
+gui.Form1..mousepointer(0)
+gui.Form1..moveable(True)
+gui.Form1..sizeable(True)
+gui.Form1..ShowInTaskBar(True)
+gui.Form1..titlebar(True)
+gui.Form1.frame1.create(frame)
+gui.Form1.frame1.caption("")
+gui.Form1.frame1.size(14790,3975)
+gui.Form1.frame1.position(200,200)
+gui.Form1.frame1.visible(True)
+gui.Form1.frame1.fontname("Arial")
+gui.Form1.frame1.fontsize(8)
+gui.Form1.gsflexgrid1.create(gsflexgrid)
+gui.Form1.gsflexgrid1.FixedRows(0)
+gui.Form1.gsflexgrid1.FixedCols(0)
+gui.Form1.gsflexgrid1.visible(True)
+gui.Form1.gsflexgrid1.size(14595,3645)
+gui.Form1.gsflexgrid1.zorder(0)
+gui.Form1.gsflexgrid1.position(100,200)
+gui.Form1.gsflexgrid1.enabled(True)
+gui.Form1.gsflexgrid1.parent("frame1")
+gui.Form1.cmdExit.create(button)
+gui.Form1.cmdExit.caption("Exit")
+gui.Form1.cmdExit.visible(True)
+gui.Form1.cmdExit.size(1110,330)
+gui.Form1.cmdExit.zorder(0)
+gui.Form1.cmdExit.position(13685,4300)
+gui.Form1.cmdExit.enabled(True)
+gui.Form1.cmdExit.fontname("Arial")
+gui.Form1.cmdExit.fontsize(8)
+gui.Form1.cmdExit.event(click,ProgramEnd)
+
+
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+
+V.Local.sSel.Declare(String)
+V.Local.sLength.Declare(String)
+V.Local.sWidth.Declare(String)
+V.Local.sTotal.Declare(String)
+V.Local.lRow.Declare(Long)
+V.Local.lRows.Declare(Long)
+V.Local.lApply.Declare(Long)
+
+F.Intrinsic.Control.If(V.Caller.Hook,=,14045)
+	V.Passed.000252.Set("Item Detail")
+	F.Intrinsic.Control.End
+
+F.Intrinsic.Control.Elseif(V.Caller.Hook,=,14070)
+F.ODBC.Connection!con.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)
+
+
+F.Intrinsic.String.Concat("select count(distinct PART) as ROWS from  ATG_ITMST_LEN_WIDTH where PART='",V.Passed.000003,"'",V.Local.sSel)
+F.ODBC.Connection!con.OpenRecordsetRO("rstITM",V.Local.sSel)
+	F.Intrinsic.Control.If(V.ODBC.con!rstITM.EOF,=,False)
+		V.Local.lRows.Set(V.ODBC.con!rstITM.FieldValLong!ROWS)
+	F.Intrinsic.Control.EndIf
+F.ODBC.con!rstITM.Close
+
+F.Intrinsic.Control.If(V.Local.lRows,<>,0)
+
+'Gui.Form1.gsflexgrid1.Rows(V.Local.lRows)
+
+Gui.Form1.gsflexgrid1.Rows(2)
+Gui.Form1.gsflexgrid1.Cols(13)
+
+Gui.Form1.gsflexgrid1.ColWidth(0,2000)
+Gui.Form1.gsflexgrid1.ColWidth(1,2000)
+Gui.Form1.gsflexgrid1.ColWidth(2,2000)
+Gui.Form1.gsflexgrid1.ColWidth(3,2000)
+Gui.Form1.gsflexgrid1.ColWidth(4,2000)
+Gui.Form1.gsflexgrid1.ColWidth(5,1000)
+Gui.Form1.gsflexgrid1.ColWidth(6,500)
+Gui.Form1.gsflexgrid1.ColWidth(7,1000)
+Gui.Form1.gsflexgrid1.ColWidth(8,500)
+Gui.Form1.gsflexgrid1.ColWidth(9,1000)
+Gui.Form1.gsflexgrid1.ColWidth(10,700)
+Gui.Form1.gsflexgrid1.ColWidth(11,700)
+Gui.Form1.gsflexgrid1.ColWidth(12,700)
+
+Gui.Form1.gsflexgrid1.TextMatrix(0,0,"Part")
+Gui.Form1.gsflexgrid1.TextMatrix(1,0,"Lot")
+Gui.Form1.gsflexgrid1.TextMatrix(2,0,"Bin")
+Gui.Form1.gsflexgrid1.TextMatrix(3,0,"Heat")
+Gui.Form1.gsflexgrid1.TextMatrix(4,0,"Serial")
+Gui.Form1.gsflexgrid1.TextMatrix(5,0,"Length")
+Gui.Form1.gsflexgrid1.TextMatrix(6,0,"UM")
+Gui.Form1.gsflexgrid1.TextMatrix(7,0,"Width")
+Gui.Form1.gsflexgrid1.TextMatrix(8,0,"UM")
+Gui.Form1.gsflexgrid1.TextMatrix(9,0,"QTY")
+Gui.Form1.gsflexgrid1.TextMatrix(10,0,"DFAR")
+Gui.Form1.gsflexgrid1.TextMatrix(11,0,"USMELT")
+Gui.Form1.gsflexgrid1.TextMatrix(12,0,"USMFG")
+
+Gui.Form1.gsflexgrid1.BuildStyle(1,0,"Type","Locked",True)
+Gui.Form1.gsflexgrid1.BuildStyle(1,1,"Type","Locked",True)
+Gui.Form1.gsflexgrid1.BuildStyle(1,2,"Type","Locked",True)
+Gui.Form1.gsflexgrid1.BuildStyle(1,3,"Type","Locked",True)
+Gui.Form1.gsflexgrid1.BuildStyle(1,4,"Type","Locked",True)
+Gui.Form1.gsflexgrid1.BuildStyle(1,5,"Type","Locked",True)
+Gui.Form1.gsflexgrid1.BuildStyle(1,6,"Type","Locked",True)
+Gui.Form1.gsflexgrid1.BuildStyle(1,7,"Type","Locked",True)
+Gui.Form1.gsflexgrid1.BuildStyle(1,8,"Type","Locked",True)
+Gui.Form1.gsflexgrid1.BuildStyle(1,9,"Type","Locked",True)
+Gui.Form1.gsflexgrid1.BuildStyle(1,10,"Type","Checkbox",True)
+Gui.Form1.gsflexgrid1.BuildStyle(1,11,"Type","Checkbox",True)
+Gui.Form1.gsflexgrid1.BuildStyle(1,12,"Type","Checkbox",True)
+
+
+Gui.Form1.gsflexgrid1.FixedRows(1)
+
+F.Intrinsic.String.Concat("select distinct PART,LOT, BIN,HEAT,SERIAL,LENGTH as LENGTH,LENGTH_UM,WIDTH as WIDTH,WIDTH_UM,TOTAL,DFAR,USMELT,USMFG from  ATG_ITMST_LEN_WIDTH where PART='",V.Passed.000003,"' order by PART,LOT,BIN,HEAT,SERIAL",V.Local.sSel)
+F.ODBC.Connection!con.OpenRecordsetRO("rstITM",V.Local.sSel)
+	F.Intrinsic.Control.If(V.ODBC.con!rstITM.EOF,=,False)
+		Gui.Form1.gsflexgrid1.LoadRecordset("con!rstITM",1)
+	F.ODBC.con!rstITM.Requery
+		F.Intrinsic.Control.DoUntil(V.ODBC.con!rstITM.EOF,=,True)
+			F.Intrinsic.Math.Add(V.Local.lRow,1,V.Local.lRow)
+			F.Intrinsic.String.Format(V.ODBC.con!rstITM.FieldValTrim!LENGTH,"0.0000",V.Local.sLength)
+				Gui.Form1.gsflexgrid1.TextMatrix(5,V.Local.lRow,V.Local.sLength)
+			F.Intrinsic.String.Format(V.ODBC.con!rstITM.FieldValTrim!WIDTH,"0.0000",V.Local.sWidth)
+				Gui.Form1.gsflexgrid1.TextMatrix(7,V.Local.lRow,V.Local.sWidth)
+			F.Intrinsic.String.Format(V.ODBC.con!rstITM.FieldValTrim!TOTAL,"0.0000",V.Local.sTotal)
+				Gui.Form1.gsflexgrid1.TextMatrix(9,V.Local.lRow,V.Local.sTotal)
+		F.ODBC.con!rstITM.MoveNext
+		F.Intrinsic.Control.Loop
+	F.Intrinsic.Control.EndIf
+F.ODBC.con!rstITM.Close
+
+F.Intrinsic.Math.Sub(V.Local.lRows,1,V.Local.lRows)
+F.Intrinsic.Control.For(V.Local.lApply,1,V.Local.lRows,1)
+	Gui.Form1.gsflexgrid1.ApplyStyle(V.Local.lRows,1)
+F.Intrinsic.Control.Next(V.Local.lApply)
+
+
+Gui.Form1..Show
+
+F.Intrinsic.Control.Else
+F.Intrinsic.UI.Msgbox("No data for selected part")
+F.Intrinsic.Control.CallSub(Programend)
+
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.EndIf
+
+Program.Sub.Main.End
+
+Program.Sub.ProgramEnd.Start
+
+F.ODBC.Connection!con.Close
+f.Intrinsic.Control.End
+
+Program.Sub.ProgramEnd.End
+
+
